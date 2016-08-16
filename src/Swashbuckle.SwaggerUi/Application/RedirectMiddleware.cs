@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Swashbuckle.SwaggerUi.Application
 {
@@ -28,8 +29,8 @@ namespace Swashbuckle.SwaggerUi.Application
                 await _next(httpContext);
                 return;
             }
-
-            RespondWithRedirect(httpContext.Response, httpContext.Request.PathBase);
+            string basePath = UriHelper.GetDisplayUrl(httpContext.Request);
+            RespondWithRedirect(httpContext.Response, basePath);
         }
 
         private bool RequestingFromPath(HttpRequest request)
